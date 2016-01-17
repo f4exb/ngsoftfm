@@ -97,7 +97,11 @@ static void handle_sigterm(int sig)
     msg += ", stopping ...\n";
 
     const char *s = msg.c_str();
-    write(STDERR_FILENO, s, strlen(s));
+    std::size_t r = write(STDERR_FILENO, s, strlen(s));
+
+    if (r != strlen(s)) {
+    	msg += "Write failed!";
+    }
 }
 
 
